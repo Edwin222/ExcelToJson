@@ -6,11 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NPOI" Version="2.4.1" />
+    <None Remove="JsonConverter\JsonConverter.cs~RFb6d7cc.TMP" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="JsonConverter\" />
+    <PackageReference Include="NPOI" Version="2.4.1" />
   </ItemGroup>
 
 </Project>

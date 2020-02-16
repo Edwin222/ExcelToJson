@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ExcelToJson.JsonConverter
 {
-    public class JsonConverter
+    public class CollectionToJsonConverter
     {
         static readonly string indentation = "    ";
         
@@ -14,7 +14,7 @@ namespace ExcelToJson.JsonConverter
 
         int indentationDepth => indentationSectionCollection.Count;
 
-        public JsonConverter(List<string> properties) 
+        public CollectionToJsonConverter(List<string> properties) 
         {
             this.properties = properties;
             indentationSectionCollection = new List<IndentationSection>();
@@ -37,7 +37,8 @@ namespace ExcelToJson.JsonConverter
                 }
             }
 
-            result += AttachIndentation("\n}");
+            result += "\n";
+            result += AttachIndentation("}");
 
             return result;
         }
@@ -50,11 +51,15 @@ namespace ExcelToJson.JsonConverter
             {
                 using (new IndentationSection(indentationSectionCollection))
                 {
-                    var rowString = AttachIndentation($"\"{properties[i]}\": \"{dataRow[i]}\"");
-                    result += AttachIndentation($"{indentation}{rowString}\n");
+                    result += AttachIndentation($"\"{properties[i]}\": \"{dataRow[i]}\"");
+                }
+
+                if(i + 1 < properties.Count)
+                {
+                    result += ",\n";
                 }
             }
-
+            result += "\n";
             result += AttachIndentation("}");
 
             return result;
