@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ExcelToJson.ExcelLoader
 {
-    class ExcelSheetLoader
+    public class ExcelSheetLoader
     {
         readonly ISheet sheet;
         readonly int rowStart;
@@ -49,7 +49,7 @@ namespace ExcelToJson.ExcelLoader
             
             foreach(var cell in row.Cells)
             {
-                rowData.Add(cell.StringCellValue);
+                rowData.Add(cell.ToString());
                 ++cursor;
             }
 

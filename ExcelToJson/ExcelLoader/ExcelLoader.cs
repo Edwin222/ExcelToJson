@@ -1,11 +1,11 @@
-﻿using NPOI.HSSF.UserModel;
-using NPOI.SS.UserModel;
+﻿using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 using System.Collections.Generic;
 using System.IO;
 
 namespace ExcelToJson.ExcelLoader
 {
-    class ExcelLoader
+    public class ExcelLoader
     {
         readonly IWorkbook excelWorkbook;
         int currentSheetNumber;
@@ -13,7 +13,7 @@ namespace ExcelToJson.ExcelLoader
 
         public ExcelLoader(FileStream fileStream)
         {
-            excelWorkbook = new HSSFWorkbook(fileStream);
+            excelWorkbook = new XSSFWorkbook(fileStream);
             currentSheetNumber = 0;
         }
 
