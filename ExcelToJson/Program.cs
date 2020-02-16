@@ -9,9 +9,40 @@ namespace ExcelToJson
 {
     class Program
     {
+        static readonly string configFileName = ".config";
+
         static void Main(string[] args)
         {
-            ContertExcelDirectoryToJson(".", ".");
+            var currentDir = Directory.GetCurrentDirectory();
+            var hasConfigFile = Directory.GetFiles(currentDir).Contains($"{currentDir}\\{configFileName}");
+
+            if (!hasConfigFile)
+            {
+                CreateConfigFile(".", ".");
+            }
+
+            using (var configStream = new FileStream(configFileName, FileMode.Open, FileAccess.Read))
+            {
+                using (var streamReader = new StreamReader(configStream))
+                {
+                    var importDir = streamReader.ReadLine();
+                    var exportDir = streamReader.ReadLine();
+
+                    ContertExcelDirectoryToJson(importDir, exportDir);
+                }
+            }    
+        }
+
+        static void CreateConfigFile(string importDir, string exportDir)
+        {
+            using (var configWritingStream = new FileStream(configFileName, FileMode.Create, FileAccess.Write))
+            {
+                using (var streamWriter = new StreamWriter(configWritingStream))
+                {
+                    streamWriter.WriteLine(importDir);
+                    streamWriter.WriteLine(exportDir);
+                }
+            }
         }
 
         static void ContertExcelDirectoryToJson(string importDir, string exportDir)
