@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="JsonConverter\JsonConverter.cs~RFb6d7cc.TMP" />
+    <None Remove="JsonControl\JsonConverter.cs~RFb6d7cc.TMP" />
   </ItemGroup>
 
   <ItemGroup>

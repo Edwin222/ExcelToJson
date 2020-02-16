@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ExcelToJson.ExcelLoader
+namespace ExcelToJson.ExcelControl
 {
     public class ExcelSheetLoader
     {
@@ -27,11 +27,12 @@ namespace ExcelToJson.ExcelLoader
             }
         }
 
-        public List<List<string>> Load()
+        public ExcelSheet Load()
         {
             var sheetData = new List<List<string>>();
+            var properties = ReadRow(sheet.GetRow(rowStart));
 
-            for(var i = rowStart;i<= rowEnd; i++)
+            for (var i = rowStart + 1;i<= rowEnd; i++)
             {
                 var row = sheet.GetRow(i);
                 var parsedRow = ReadRow(row);
@@ -39,7 +40,7 @@ namespace ExcelToJson.ExcelLoader
                 sheetData.Add(parsedRow);
             }
 
-            return sheetData;
+            return new ExcelSheet(sheet.SheetName, properties, sheetData);
         }
 
         List<string> ReadRow(IRow row)

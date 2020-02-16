@@ -1,15 +1,15 @@
 ﻿using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
-using System.Collections.Generic;
 using System.IO;
 
-namespace ExcelToJson.ExcelLoader
+namespace ExcelToJson.ExcelControl
 {
     public class ExcelLoader
     {
         readonly IWorkbook excelWorkbook;
         int currentSheetNumber;
         int maxSheetNumber => excelWorkbook.NumberOfSheets;
+        public bool HasSheetToRead() => currentSheetNumber < maxSheetNumber;
 
         public ExcelLoader(FileStream fileStream)
         {
@@ -17,7 +17,7 @@ namespace ExcelToJson.ExcelLoader
             currentSheetNumber = 0;
         }
 
-        public List<List<string>> LoadNextSheet()
+        public ExcelSheet LoadNextSheet()
         {
             if(currentSheetNumber < maxSheetNumber)
             {

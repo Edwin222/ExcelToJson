@@ -1,4 +1,7 @@
 ﻿using System;
+using System.IO;
+using ExcelToJson.ExcelControl;
+using ExcelToJson.JsonConverter;
 
 namespace ExcelToJson
 {
@@ -6,7 +9,9 @@ namespace ExcelToJson
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            using (var fileStream = new FileStream("mockupData.xlsx", FileMode.Open, FileAccess.Read))
+            {
+            }
         }
     }
 }
