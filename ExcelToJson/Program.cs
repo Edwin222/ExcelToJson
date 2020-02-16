@@ -11,10 +11,21 @@ namespace ExcelToJson
     {
         static void Main(string[] args)
         {
-            ConvertExcelToJson("mockupData.xlsx", ".");
+            ContertExcelDirectoryToJson(".", ".");
         }
 
-        static void ConvertExcelToJson(string excelFilePath, string resultDir)
+        static void ContertExcelDirectoryToJson(string importDir, string exportDir)
+        {
+            var filePaths = Directory.GetFiles(importDir, "*.xlsx");
+
+            foreach(var filePath in filePaths)
+            {
+                Console.WriteLine($"Import: {filePath}");
+                ConvertExcelToJson(filePath, exportDir);
+            }
+        }
+
+        static void ConvertExcelToJson(string excelFilePath, string exportDir)
         {
             using (var excelFile = new FileStream(excelFilePath, FileMode.Open, FileAccess.Read))
             {
@@ -25,7 +36,7 @@ namespace ExcelToJson
                     var excelSheet = excelLoader.LoadNextSheet();
 
                     var sheetFileName = $"{GetNameFromPath(excelFile.Name)}.{excelSheet.Name}.json";
-                    using (var jsonFile = new FileStream($"{resultDir}/{sheetFileName}", FileMode.Create, FileAccess.Write))
+                    using (var jsonFile = new FileStream($"{exportDir}/{sheetFileName}", FileMode.Create, FileAccess.Write))
                     {
                         using (var streamWriter = new StreamWriter(jsonFile))
                         {
@@ -33,6 +44,8 @@ namespace ExcelToJson
 
                             streamWriter.Write(collectionToJsonConverter.CreateJSONLiteral(excelSheet.Sheet));
                         }
+
+                        Console.WriteLine($"Exported: {jsonFile.Name}");
                     }
                 }
             }
