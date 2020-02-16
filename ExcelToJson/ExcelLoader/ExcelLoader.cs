@@ -1,9 +1,7 @@
 ﻿using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace ExcelToJson.ExcelLoader
 {
@@ -19,13 +17,16 @@ namespace ExcelToJson.ExcelLoader
             currentSheetNumber = 0;
         }
 
-        public string ReadNextSheet()
+        public List<List<string>> LoadNextSheet()
         {
             if(currentSheetNumber < maxSheetNumber)
             {
                 var sheet = excelWorkbook.GetSheetAt(currentSheetNumber);
-
                 ++currentSheetNumber;
+
+                var sheetLoader = new ExcelSheetLoader(sheet);
+
+                return sheetLoader.Load();
             }
 
             return null;
