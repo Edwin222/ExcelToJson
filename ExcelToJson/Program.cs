@@ -9,40 +9,66 @@ namespace ExcelToJson
 {
     class Program
     {
-        static readonly string configFileName = ".config";
-
         static void Main(string[] args)
         {
-            var currentDir = Directory.GetCurrentDirectory();
-            var hasConfigFile = Directory.GetFiles(currentDir).Contains($"{currentDir}\\{configFileName}");
-
-            if (!hasConfigFile)
+            switch (args.Count())
             {
-                CreateConfigFile(".", ".");
+                case 0:
+                    DefaultBehavior();
+                    return;
+                
+                case 1:
+                    if(args[0] == "-h")
+                    {
+                        Console.WriteLine("-i <importDirectory> : Change Excel Importing Directory.");
+                        Console.WriteLine("-e <exportDirectory> : Change JSON Exporting Directory.");
+                        return;
+                    }
+
+                    throw new ArgumentException("Invalid Argument");
+                
+                case 2:
+                    if (args[0] == "-i")
+                    {
+                        ChangeConfigImportDirectory(args[1]);
+                        return;
+                    }
+                    else if (args[0] == "-e")
+                    {
+                        ChangeConfigExportDirectory(args[1]);
+                        return;
+                    }
+
+                    throw new ArgumentException("Invalid Argument");
+                
+                default:
+                    throw new ArgumentException("Invalid Argument");
             }
-
-            using (var configStream = new FileStream(configFileName, FileMode.Open, FileAccess.Read))
-            {
-                using (var streamReader = new StreamReader(configStream))
-                {
-                    var importDir = streamReader.ReadLine();
-                    var exportDir = streamReader.ReadLine();
-
-                    ContertExcelDirectoryToJson(importDir, exportDir);
-                }
-            }    
         }
 
-        static void CreateConfigFile(string importDir, string exportDir)
+        static void DefaultBehavior()
         {
-            using (var configWritingStream = new FileStream(configFileName, FileMode.Create, FileAccess.Write))
+            if (!Configuration.HasConfigFile())
             {
-                using (var streamWriter = new StreamWriter(configWritingStream))
-                {
-                    streamWriter.WriteLine(importDir);
-                    streamWriter.WriteLine(exportDir);
-                }
+                Configuration.Write(".", ".");
             }
+
+            var config = Configuration.Read();
+            ContertExcelDirectoryToJson(config.ImportDirectory, config.ExportDirectory);
+        }
+
+        static void ChangeConfigImportDirectory(string importDir)
+        {
+            var config = Configuration.Read();
+
+            Configuration.Write(importDir, config.ExportDirectory);
+        }
+
+        static void ChangeConfigExportDirectory(string exportDir)
+        {
+            var config = Configuration.Read();
+
+            Configuration.Write(config.ImportDirectory, exportDir);
         }
 
         static void ContertExcelDirectoryToJson(string importDir, string exportDir)
