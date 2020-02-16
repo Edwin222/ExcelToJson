@@ -22,17 +22,25 @@ namespace ExcelToJson.JsonConverter
         {
             var result = AttachIndentation("{\n");
 
-            foreach(var row in sheetData)
+            using (new IndentationSection(indentationSectionCollection))
             {
-                using(new IndentationSection(indentationSectionCollection))
-                {
-                    result += CreateJSONObject(row);
+                result += AttachIndentation("\"Data\": [\n");
 
-                    if(row != sheetData.Last())
+                foreach (var row in sheetData)
+                {
+                    using (new IndentationSection(indentationSectionCollection))
                     {
-                        result += ",\n";
+                        result += CreateJSONObject(row);
+
+                        if (row != sheetData.Last())
+                        {
+                            result += ",\n";
+                        }
                     }
                 }
+
+                result += "\n";
+                result += AttachIndentation("]");
             }
 
             result += "\n";

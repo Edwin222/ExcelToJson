@@ -1,8 +1,6 @@
 ﻿using ExcelToJson.JsonConverter;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ExcelToJsonTests
 {
@@ -40,21 +38,23 @@ namespace ExcelToJsonTests
 
             Assert.AreEqual(
                 "{\n" +
-                "    {\n" +
-                "        \"1\": \"가\",\n" +
-                "        \"2\": \"나\",\n" +
-                "        \"3\": \"다\"\n" +
-                "    },\n" +
-                "    {\n" +
-                "        \"1\": \"라\",\n" +
-                "        \"2\": \"마\",\n" +
-                "        \"3\": \"바\"\n" +
-                "    },\n" +
-                "    {\n" +
-                "        \"1\": \"사\",\n" +
-                "        \"2\": \"아\",\n" +
-                "        \"3\": \"자\"\n" +
-                "    }\n" +
+                "    \"Data\": [\n" +
+                "        {\n" +
+                "            \"1\": \"가\",\n" +
+                "            \"2\": \"나\",\n" +
+                "            \"3\": \"다\"\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"1\": \"라\",\n" +
+                "            \"2\": \"마\",\n" +
+                "            \"3\": \"바\"\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"1\": \"사\",\n" +
+                "            \"2\": \"아\",\n" +
+                "            \"3\": \"자\"\n" +
+                "        }\n" +
+                "    ]\n" +
                 "}", 
                 collectionToJsonConverter.CreateJSONLiteral(data));
         }
