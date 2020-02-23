@@ -14,7 +14,7 @@ namespace ExcelToJson
             switch (args.Count())
             {
                 case 0:
-                    DefaultBehavior();
+                    ExcelToJson();
                     return;
                 
                 case 1:
@@ -46,7 +46,7 @@ namespace ExcelToJson
             }
         }
 
-        static void DefaultBehavior()
+        static void ExcelToJson()
         {
             if (!Configuration.HasConfigFile())
             {
@@ -54,7 +54,7 @@ namespace ExcelToJson
             }
 
             var config = Configuration.Read();
-            ContertExcelDirectoryToJson(config.ImportDirectory, config.ExportDirectory);
+            ContertDirectoryExcelToJson(config.ImportDirectory, config.ExportDirectory);
         }
 
         static void ChangeConfigImportDirectory(string importDir)
@@ -71,7 +71,7 @@ namespace ExcelToJson
             Configuration.Write(config.ImportDirectory, exportDir);
         }
 
-        static void ContertExcelDirectoryToJson(string importDir, string exportDir)
+        static void ContertDirectoryExcelToJson(string importDir, string exportDir)
         {
             var filePaths = Directory.GetFiles(importDir, "*.xlsx");
 
